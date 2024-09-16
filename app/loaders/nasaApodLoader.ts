@@ -17,8 +17,7 @@ type CachedData = {
 
 // In-memory cache
 const cache = new Map<string, CachedData>();
-// const CACHE_DURATION = 60 * 60 * 24 * 1000; // 24 hours
-const CACHE_DURATION = 5 * 1000; // 5 secs
+const CACHE_DURATION = 60 * 60 * 24 * 1000; // 24 hours
 
 export async function nasaLoader({ request }: LoaderArgs) {
   const cacheKey = 'nasa_apod_data';
