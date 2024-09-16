@@ -11,6 +11,16 @@ interface ResponsiveImageProps {
 const ResponsiveImage: React.FC<ResponsiveImageProps> = ({ src, alt, width, height }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  // Log when the image loading starts and finishes
+  const handleImageLoad = () => {
+    console.log('Image has loaded:', src);
+    setImageLoaded(true);
+  };
+
+  const handleImageError = (e: any) => {
+    console.error('Image failed to load:', src, e);
+  };
+
   return (
     <div
       style={{
@@ -18,14 +28,14 @@ const ResponsiveImage: React.FC<ResponsiveImageProps> = ({ src, alt, width, heig
         placeItems: 'center',
         width: `${width}px`,
         height: `${height}px`,
-        overflow: 'hidden', // Ensure container does not overflow
+        overflow: 'hidden',
         position: 'relative',
       }}
     >
       {/* Shimmer background that remains visible */}
       <div
         style={{
-          gridArea: '1 / 1', // Ensure shimmer and image overlap in the same grid cell
+          gridArea: '1 / 1',
           width: '100%',
           height: '100%',
           background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
@@ -34,16 +44,17 @@ const ResponsiveImage: React.FC<ResponsiveImageProps> = ({ src, alt, width, heig
         }}
       />
 
-      {/* Actual Image overlayed with fade-in effect */}
+      {/* Actual Image from @unpic/react with logging */}
       <Image
         src={src}
         layout="constrained"
         width={width}
         height={height}
         alt={alt}
-        onLoad={() => setImageLoaded(true)} // Fires once the image is loaded
+        onLoad={handleImageLoad} // Log when image loads
+        onError={handleImageError} // Log errors if image fails to load
         style={{
-          gridArea: '1 / 1', // Same grid cell to overlap with shimmer
+          gridArea: '1 / 1',
           width: '100%',
           height: '100%',
           transition: 'opacity 0.5s ease-in-out',
